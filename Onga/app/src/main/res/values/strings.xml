@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Onga</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    //Strings for app drawer
+    <string name="app_drawer_menu">Menu</string>
+    <string name="app_drawer_history">History</string>
+    <string name="app_drawer_logout">Logout</string>
+    <string name="app_drawer_feedback">About</string>
+</resources>
