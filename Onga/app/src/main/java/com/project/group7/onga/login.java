@@ -2,7 +2,6 @@ package com.project.group7.onga;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,15 +16,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class login extends AppCompatActivity implements View.OnClickListener{
+public class Login extends AppCompatActivity implements View.OnClickListener{
 
     private Button login_btn;
     private EditText username, password;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         login_btn = (Button) findViewById(R.id.login_btn);
         login_btn.setOnClickListener(this);
@@ -36,7 +38,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     }
 
     /**
-     * Function to handle the login button click
+     * Function to handle the Login button click
      * @param view The current view
      */
     @Override
@@ -101,8 +103,9 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("1")) {
+                sessionManager.createLoginSession("Fredrick", "Abayie");
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                Intent home = new Intent(login.this, MainActivity.class);
+                Intent home = new Intent(Login.this, MainActivity.class);
                 startActivity(home);
                 finish();
             } else {

@@ -1,20 +1,27 @@
 package com.project.group7.onga;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView username;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,21 @@ public class MainActivity extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+        username = (TextView) findViewById(R.id.app_draw_username);
+
+        sessionManager = new SessionManager(getApplicationContext());
+
+        sessionManager.checkLogin();
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+        String name = user.get(SessionManager.KEY_NAME);
+
+        // email
+        String email = user.get(SessionManager.KEY_EMAIL);
+
+        username.setText(Html.fromHtml("Name: <b>" + name + "</b>"));
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -78,7 +100,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        int TargetPane;
         int id = item.getItemId();
+//        Activity activity = null;
 
         if (id == R.id.nav_menu) {
             // Handle the camera action
@@ -89,10 +113,22 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_logout) {
+//            activity = new Login();
+            sessionManager.logoutUser();
+//            Intent home = new Intent(MainActivity.this, Login.class);
+//            startActivity(home);
+//            finish();
 
         } else if (id == R.id.nav_about) {
 
         }
+
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+////        fragmentTransaction.replace(TargetPane, fragment);
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
