@@ -2,7 +2,9 @@ package com.project.group7.onga;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,15 +33,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         username = (TextView) findViewById(R.id.app_draw_username);
         studentID = (TextView) findViewById(R.id.app_draw_studentid);
@@ -100,50 +93,51 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.action_search) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+    
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int TargetPane;
+        String title = getString(R.string.app_name);
         int id = item.getItemId();
         Fragment fragment = null;
 
         if (id == R.id.nav_menu) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
+            fragment = new Meal();
+            title = getString(R.string.title_menu);
         } else if (id == R.id.nav_history) {
             fragment = new History();
-
-        } else if (id == R.id.nav_manage) {
+            title = getString(R.string.title_history);
+        } else if (id == R.id.nav_account) {
 
         } else if (id == R.id.nav_logout) {
-//            activity = new Login();
             sessionManager.logoutUser();
             finish();
-//            Intent home = new Intent(MainActivity.this, Login.class);
-//            startActivity(home);
-//            finish();
 
         } else if (id == R.id.nav_about) {
 
         }
 
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id., fragment).commit();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.commit();
 
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-////        fragmentTransaction.replace(TargetPane, fragment);
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+            getSupportActionBar().setTitle(title);
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+//
 }

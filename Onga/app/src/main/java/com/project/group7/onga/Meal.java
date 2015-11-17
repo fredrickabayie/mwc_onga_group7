@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 /**
  * Created by fredrickabayie on 17/11/15.
  */
-public class History extends Fragment {
+public class Meal extends Fragment {
 
-    public History() {
+    public Meal() {
 
     }
 
@@ -25,7 +25,7 @@ public class History extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_history, container, false);
+        View rootView = inflater.inflate(R.layout.activity_meal, container, false);
 
 
         // Inflate the layout for this fragment
