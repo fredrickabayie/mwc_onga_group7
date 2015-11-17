@@ -32,7 +32,7 @@ public class SessionManager {
     public static final String KEY_NAME = "name";
 
     // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+    public static final String KEY_STUDENTID = "studentID";
 
     // Constructor
     public SessionManager(Context context){
@@ -44,7 +44,7 @@ public class SessionManager {
     /**
      * Create Login session
      * */
-    public void createLoginSession(String name, String email){
+    public void createLoginSession(String name, String studentID){
         // Storing Login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -52,7 +52,7 @@ public class SessionManager {
         editor.putString(KEY_NAME, name);
 
         // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_STUDENTID, studentID);
 
         // commit changes
         editor.commit();
@@ -63,7 +63,7 @@ public class SessionManager {
      * If false it will redirect user to Login page
      * Else won't do anything
      * */
-    public void checkLogin(){
+    public boolean checkLogin(){
         // Check Login status
         if(!this.isLoggedIn()){
             // user is not logged in redirect him to Login Activity
@@ -76,8 +76,9 @@ public class SessionManager {
 
             // Staring Login Activity
             _context.startActivity(i);
+            return true;
         }
-
+        return false;
     }
 
 
@@ -91,7 +92,7 @@ public class SessionManager {
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
         // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_STUDENTID, pref.getString(KEY_STUDENTID, null));
 
         // return user
         return user;

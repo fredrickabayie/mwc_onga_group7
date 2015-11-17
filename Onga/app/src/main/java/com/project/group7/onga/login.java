@@ -1,5 +1,6 @@
 package com.project.group7.onga;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -21,6 +26,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private Button login_btn;
     private EditText username, password;
     SessionManager sessionManager;
+
+//    JSONArray user = null;
+    private static final String TAG_RESULT = "result";
+    private static final String TAG_USERNAME = "username";
+    private static final String TAG_ID = "id";
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
      *
      */
     private class DownloadWebPageTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(Login.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
         /**
          *Functiont to open an http connection
          * @param urls The url to be sent
@@ -89,11 +112,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         }
 
-//        @Override
-//        protected void onProgressUpdate(Void... values) {
-//            super.onProgressUpdate(values);
-//            System.out.println(values[0]);
-//        }
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            System.out.println(values[0]);
+        }
 
 
         /**
@@ -102,14 +125,31 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
          */
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals("1")) {
-                sessionManager.createLoginSession("Fredrick", "Abayie");
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                Intent home = new Intent(Login.this, MainActivity.class);
-                startActivity(home);
-                finish();
-            } else {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+            try {
+                JSONObject jsonObj = new JSONObject(result);
+
+                String res = jsonObj.getString(TAG_RESULT);
+                System.out.print(res+"\n");
+                if(res.equals("1")) {
+                    if (pDialog.isShowing())
+                        pDialog.dismiss();
+                    String user = jsonObj.getString(TAG_USERNAME);
+                    String id = jsonObj.getString(TAG_ID);
+                    sessionManager.createLoginSession(user, id);
+
+                    Intent home = new Intent(Login.this, MainActivity.class);
+                    startActivity(home);
+                    finish();
+                }
+                else {
+                    if (pDialog.isShowing())
+                        pDialog.dismiss();
+                    String msg = jsonObj.getString("message");
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                }
+
+            } catch (JSONException jsonex) {
+                jsonex.printStackTrace();
             }
         }
     }
@@ -123,7 +163,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     public void readWebpage(View view) {
         DownloadWebPageTask task = new DownloadWebPageTask();
 
-        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users&username="
-                +username.getText().toString()+"&password="+password.getText().toString());
+        if(username.getText().toString().trim().length() > 0 && password.getText().toString().trim().length() > 0) {
+            task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users&username="
+                    +username.getText().toString()+"&password="+password.getText().toString());
+        } else {
+            username.setError("Please enter your username");
+            password.setError("Please enter your password");
+        }
     }
 }

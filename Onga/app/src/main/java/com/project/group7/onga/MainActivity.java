@@ -1,5 +1,7 @@
 package com.project.group7.onga;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -20,7 +22,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView username;
+    TextView username, studentID;
     SessionManager sessionManager;
 
     @Override
@@ -40,18 +42,23 @@ public class MainActivity extends AppCompatActivity
 //        });
 
         username = (TextView) findViewById(R.id.app_draw_username);
+        studentID = (TextView) findViewById(R.id.app_draw_studentid);
 
         sessionManager = new SessionManager(getApplicationContext());
 
-        sessionManager.checkLogin();
+        if(sessionManager.checkLogin() == true) {
+            finish();
+        }
+
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         String name = user.get(SessionManager.KEY_NAME);
 
         // email
-        String email = user.get(SessionManager.KEY_EMAIL);
+        String stuid = user.get(SessionManager.KEY_STUDENTID);
 
-        username.setText(Html.fromHtml("Name: <b>" + name + "</b>"));
+        username.setText(Html.fromHtml("<b>" + name + "</b>"));
+        studentID.setText(Html.fromHtml("<b>" + stuid + "</b>"));
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,19 +109,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int TargetPane;
         int id = item.getItemId();
-//        Activity activity = null;
+        Fragment fragment = null;
 
         if (id == R.id.nav_menu) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_history) {
+            fragment = new History();
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_logout) {
 //            activity = new Login();
             sessionManager.logoutUser();
+            finish();
 //            Intent home = new Intent(MainActivity.this, Login.class);
 //            startActivity(home);
 //            finish();
@@ -122,6 +131,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
 
         }
+
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id., fragment).commit();
 
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
