@@ -39,6 +39,7 @@ public class Meal extends Fragment {
 
     @Override
     public void onDetach() {
+
         super.onDetach();
     }
 }
