@@ -59,11 +59,15 @@ public class History extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        sessionManager = new SessionManager(getContext());
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
+
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+        String user_id = user.get(SessionManager.KEY_STUDENTID);
 
         usersList = new ArrayList<>();
         DownloadWebPageTask task = new DownloadWebPageTask();
-        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_orders_history&user_id=11112016");
+        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_orders_history&user_id="+user_id);
 //        ListView lv = getListView();
 //        lv.setOnClickListener(this);
     }
