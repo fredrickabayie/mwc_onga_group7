@@ -35,16 +35,19 @@ import java.util.HashMap;
  */
 public class History extends ListFragment {
 
-    private static String url = "http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users_all";
     JSONArray users = null;
     ListView listView;
     ArrayAdapter<String>adapter;
 
+    SessionManager sessionManager;
+
     ArrayList<HashMap<String, String>> usersList;
     private static final String TAG_RESULTID = "result";
-    private static final String TAG_USERS = "users";
-    private static final String TAG_NAME = "username";
-    private static final String TAG_USERID = "user_id";
+    private static final String TAG_HISTORY = "history";
+    private static final String TAG_MEALNAME = "meal_name";
+    private static final String TAG_MEALPRICE = "meal_price";
+    private static final String TAG_ORDERDATE = "order_date";
+    private static final String TAG_ORDERTIME = "order_time";
 
 
     public History() {
@@ -56,9 +59,11 @@ public class History extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        sessionManager = new SessionManager(getContext());
+
         usersList = new ArrayList<>();
         DownloadWebPageTask task = new DownloadWebPageTask();
-        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users_all");
+        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_orders_history&user_id=11112016");
 //        ListView lv = getListView();
 //        lv.setOnClickListener(this);
     }
@@ -137,17 +142,19 @@ public class History extends ListFragment {
                     JSONObject jsonObject = new JSONObject(response);
                     String resultID = jsonObject.getString(TAG_RESULTID);
                     if(resultID.equals("1")) {
-                        users = jsonObject.getJSONArray(TAG_USERS);
+                        users = jsonObject.getJSONArray(TAG_HISTORY);
                         for (int i = 0; i < users.length(); i++) {
                             JSONObject jObj = users.getJSONObject(i);
 
-                            String name = jObj.getString(TAG_NAME);
-                            String id = jObj.getString(TAG_USERID);
+                            String meal_name = jObj.getString(TAG_MEALNAME);
+                            String meal_price = jObj.getString(TAG_MEALPRICE);
+                            String order_date = jObj.getString(TAG_ORDERDATE);
 
                             HashMap<String, String> user = new HashMap<>();
 
-                            user.put(TAG_NAME, name);
-                            user.put(TAG_USERID, id);
+                            user.put(TAG_MEALNAME, meal_name);
+                            user.put(TAG_MEALPRICE, meal_price);
+                            user.put(TAG_ORDERDATE, order_date);
 
                             usersList.add(user);
                             System.out.println(usersList);
@@ -181,67 +188,26 @@ public class History extends ListFragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-//            ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1,countries);
-
-            /** Setting the list adapter for the ListFragment */
-//            setListAdapter(adapter);
-
-
             ListAdapter adapter = new SimpleAdapter (
                     getActivity(), usersList,
-                    R.layout.history_list, new String[] { TAG_NAME, TAG_USERID },
-                    new int[] { R.id.list_username, R.id.list_userID } );
-////
+                    R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE },
+                    new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date } );
+
             setListAdapter(adapter);
-
-
-//            if(result != null) {
-//                try {
-//                    JSONObject jsonObject = new JSONObject(result);
-//                    String resultID = jsonObject.getString(TAG_RESULTID);
-//                    if(resultID.equals("1")) {
-//                        users = jsonObject.getJSONArray(TAG_USERS);
-//                        for (int i = 0; i < users.length(); i++) {
-//                            JSONObject jObj = users.getJSONObject(i);
-//
-//                            String name = jObj.getString(TAG_NAME);
-//                            String id = jObj.getString(TAG_USERID);
-//
-//                            HashMap<String, String> user = new HashMap<>();
-//
-//                            user.put(TAG_NAME, name);
-//                            user.put(TAG_USERID, id);
-//
-//                            usersList.add(user);
-//                        }
-//
-//                        ListAdapter adapter = new SimpleAdapter (
-//                                History.this, usersList,
-//                                R.layout.history_list, new String[] { TAG_NAME, TAG_USERID },
-//                                new int[] { R.id.list_username, R.id.list_userID } );
-//
-//                        setListAdapter(adapter);
-//                    }
-//
-//                } catch (JSONException jsonex) {
-//                    jsonex.printStackTrace();
-//                }
-//
-//            }
 
         }
     }
 
 
 
-    /**
-     * A function to read the web page
-     * @param view
-     */
-    public void readWebpage(View view) {
-        DownloadWebPageTask task = new DownloadWebPageTask();
-
-        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users_all");
-    }
+//    /**
+//     * A function to read the web page
+//     * @param view
+//     */
+//    public void readWebpage(View view) {
+//        DownloadWebPageTask task = new DownloadWebPageTask();
+//
+//        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users_all");
+//    }
 
 }
