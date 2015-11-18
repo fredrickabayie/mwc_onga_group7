@@ -196,7 +196,6 @@ public class History extends ListFragment {
                     getActivity(), usersList,
                     R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE },
                     new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date } );
-
             setListAdapter(adapter);
 
         }
