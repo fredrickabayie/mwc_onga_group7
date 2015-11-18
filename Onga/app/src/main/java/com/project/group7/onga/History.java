@@ -151,14 +151,17 @@ public class History extends ListFragment {
                             JSONObject jObj = users.getJSONObject(i);
 
                             String meal_name = jObj.getString(TAG_MEALNAME);
-                            String meal_price = jObj.getString(TAG_MEALPRICE);
+                            String meal_price = "GH\u20B5 "+jObj.getString(TAG_MEALPRICE);
                             String order_date = jObj.getString(TAG_ORDERDATE);
+                            String order_time = jObj.getString(TAG_ORDERTIME);
 
                             HashMap<String, String> user = new HashMap<>();
 
                             user.put(TAG_MEALNAME, meal_name);
                             user.put(TAG_MEALPRICE, meal_price);
                             user.put(TAG_ORDERDATE, order_date);
+                            user.put(TAG_ORDERTIME, order_time);
+
 
                             usersList.add(user);
                             System.out.println(usersList);
@@ -194,8 +197,8 @@ public class History extends ListFragment {
 
             ListAdapter adapter = new SimpleAdapter (
                     getActivity(), usersList,
-                    R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE },
-                    new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date } );
+                    R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE, TAG_ORDERTIME },
+                    new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date, R.id.list_order_time } );
 
             setListAdapter(adapter);
 

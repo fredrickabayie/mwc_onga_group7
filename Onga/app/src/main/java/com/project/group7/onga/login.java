@@ -2,12 +2,17 @@ package com.project.group7.onga;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -20,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Blob;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -30,12 +36,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 //    JSONArray user = null;
     private static final String TAG_RESULT = "result";
     private static final String TAG_USERNAME = "username";
+    private static final String TAG_USERDP = "dp";
     private static final String TAG_ID = "id";
 
     private ProgressDialog pDialog;
 
+    private RelativeLayout relativeLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -46,6 +56,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
 
     }
 
@@ -129,23 +141,47 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 JSONObject jsonObj = new JSONObject(result);
 
                 String res = jsonObj.getString(TAG_RESULT);
-                System.out.print(res+"\n");
+                System.out.print(res + "\n");
                 if(res.equals("1")) {
-                    if (pDialog.isShowing())
-                        pDialog.dismiss();
+
                     String user = jsonObj.getString(TAG_USERNAME);
                     String id = jsonObj.getString(TAG_ID);
-                    sessionManager.createLoginSession(user, id);
+                    String pic = jsonObj.getString(TAG_USERDP);
+//                    System.out.println(pic);
+
+                    if (pDialog.isShowing())
+                        pDialog.dismiss();
+
+                    sessionManager.createLoginSession(user, id, pic);
 
                     Intent home = new Intent(Login.this, MainActivity.class);
                     startActivity(home);
                     finish();
                 }
                 else {
+
                     if (pDialog.isShowing())
                         pDialog.dismiss();
                     String msg = jsonObj.getString("message");
-                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+
+                    Snackbar snackbar = Snackbar
+                            .make(relativeLayout, msg, Snackbar.LENGTH_SHORT);
+
+                    // Changing message text color
+//                    snackbar.setActionTextColor(Color.RED);
+
+                    // Changing action button text color
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+
+                    snackbar.show();
+
+
+
+
+
                 }
 
             } catch (JSONException jsonex) {
@@ -165,10 +201,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         if(username.getText().toString().trim().length() > 0 && password.getText().toString().trim().length() > 0) {
             task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users&username="
-                    +username.getText().toString()+"&password="+password.getText().toString());
+                    +username.getText().toString().trim()+"&password="+password.getText().toString().trim());
         } else {
             username.setError("Please enter your username");
             password.setError("Please enter your password");
+//            password.setError("");
         }
     }
 }

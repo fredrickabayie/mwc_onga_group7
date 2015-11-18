@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity
 
     TextView username, studentID;
     SessionManager sessionManager;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        imageView = (ImageView) findViewById(R.id.profile_picture);
+//        imageView.setImageResource(R.id);
 
         username = (TextView) findViewById(R.id.app_draw_username);
         studentID = (TextView) findViewById(R.id.app_draw_studentid);
@@ -46,6 +52,12 @@ public class MainActivity extends AppCompatActivity
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         String name = user.get(SessionManager.KEY_NAME);
+
+        String dp = user.get(SessionManager.KEY_DP);
+
+        System.out.println(dp);
+
+        imageView.setImageResource(R.mipmap.ic_profile);
 
         // email
         String stuid = user.get(SessionManager.KEY_STUDENTID);
