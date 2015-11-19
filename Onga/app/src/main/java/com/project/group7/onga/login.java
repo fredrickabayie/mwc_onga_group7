@@ -1,8 +1,11 @@
 package com.project.group7.onga;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +53,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         sessionManager = new SessionManager(getApplicationContext());
 
         login_btn = (Button) findViewById(R.id.login_btn);
@@ -58,6 +63,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         password = (EditText) findViewById(R.id.password);
 
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
+
+        networkSate();
 
     }
 
@@ -188,6 +195,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 jsonex.printStackTrace();
             }
         }
+    }
+
+
+    public void networkSate () {
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mMobile = connManager .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+//        if (mWifi.isConnected()) {
+//            System.out.println("Wifi connected");
+//        } else {
+////            ImageView con_stat;
+////            con_stat = (ImageView) findViewById(R.id.connect_status);
+////            con_stat.setImageResource(R.drawable.ic_signal_wifi_off);
+////            login_btn.setEnabled(false);
+////            System.out.println("Wifi not available");
+//        }
     }
 
 
