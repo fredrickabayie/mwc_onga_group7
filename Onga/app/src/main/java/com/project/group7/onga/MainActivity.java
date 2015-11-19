@@ -19,20 +19,24 @@ import android.text.Html;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     TextView username, studentID;
     SessionManager sessionManager;
     ImageView imageView;
     byte[] rawImage;
+    Button add_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         imageView = (ImageView) findViewById(R.id.profile_picture);
+
 
         username = (TextView) findViewById(R.id.app_draw_username);
         studentID = (TextView) findViewById(R.id.app_draw_studentid);
@@ -163,5 +168,9 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
 //
 }

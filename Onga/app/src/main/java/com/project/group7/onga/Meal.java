@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
-import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -79,6 +78,7 @@ public class Meal extends ListFragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_meal, container, false);
         // Inflate the layout for this fragment
+
         return rootView;
     }
 
@@ -87,6 +87,8 @@ public class Meal extends ListFragment implements View.OnClickListener{
         super.onAttach(activity);
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -94,9 +96,7 @@ public class Meal extends ListFragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-       add_btn = (Button) v.findViewById(R.id.add_btn);
-        add_btn.setOnClickListener(this);
-        Toast.makeText(getActivity(),"Hello",Toast.LENGTH_SHORT).show();
+
     }
 
 
