@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/onga"
+    android:id="@+id/relativelayout"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context="com.project.group7.onga.Login">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="40sp"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:layout_width="200sp"
+            android:contentDescription="login_logo"
+            android:layout_height="200sp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/onga_logo" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:inputType="textPersonName"
+            android:hint="@string/username_hint"
+            android:ems="10"
+            android:textSize="15sp"
+            android:layout_marginTop="40sp"
+            android:paddingStart="15sp"
+            android:paddingEnd="15sp"
+            android:paddingLeft="15sp"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:typeface="monospace"
+            android:background="@drawable/login_edittext"
+            android:id="@+id/username" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:inputType="textPassword"
+            android:hint="@string/password_hint"
+            android:textSize="15sp"
+            android:ems="10"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginTop="20sp"
+            android:paddingStart="15sp"
+            android:paddingEnd="15sp"
+            android:paddingLeft="15sp"
+            android:background="@drawable/login_edittext"
+            android:typeface="monospace"
+            android:id="@+id/password" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/login_btn"
+            android:textSize="15sp"
+            android:textColor="@color/login_btn_txt"
+            android:background="@color/login_btn"
+            android:layout_marginTop="40sp"
+            android:typeface="monospace"
+            android:textStyle="bold"
+            android:id="@+id/login_btn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:typeface="monospace"
+            android:layout_marginTop="30sp"
+            android:text="Lightning Food Service"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+</RelativeLayout>
