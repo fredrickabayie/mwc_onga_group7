@@ -131,7 +131,7 @@ public class Meal extends ListFragment {
 
                             String meal_name = jObj.getString(MEAL);
                             String meal_price = jObj.getString(PRICE);
-                            String status = jObj.getString(MEAL_STATUS);
+                            String status = convertStatus(jObj.getString(MEAL_STATUS));
 
                             HashMap<String, String> user = new HashMap<>();
 
@@ -159,6 +159,14 @@ public class Meal extends ListFragment {
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
             System.out.println(values[0]);
+        }
+
+        private String convertStatus(String mealId){
+            String status = "Not Ready";
+            if(mealId.equals("2")){
+                status = "Ready";
+            }
+            return status;
         }
 
 
