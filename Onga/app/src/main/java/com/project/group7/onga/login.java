@@ -165,7 +165,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         if(username.getText().toString().trim().length() > 0 && password.getText().toString().trim().length() > 0) {
             task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_users&username="
-                    +username.getText().toString()+"&password="+password.getText().toString());
+                    +username.getText().toString().trim()+"&password="+password.getText().toString().trim());
         } else {
             username.setError("Please enter your username");
             password.setError("Please enter your password");
