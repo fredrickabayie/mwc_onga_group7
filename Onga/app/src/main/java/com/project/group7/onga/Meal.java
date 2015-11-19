@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,10 +29,12 @@ import java.util.HashMap;
 /**
  * Created by israel.agyeman.prempeh@gmail.com on 18/11/15.
  */
-public class Meal extends ListFragment {
+public class Meal extends ListFragment implements View.OnClickListener{
+
 
     JSONArray meals = null;
-
+    int opt=1;
+    Button add_btn;
     SessionManager sessionManager;
 
     ArrayList<HashMap<String, String>> usersList;
@@ -53,11 +58,16 @@ public class Meal extends ListFragment {
 
         HashMap<String, String> user = sessionManager.getUserDetails();
 
+
         String user_id = user.get(SessionManager.KEY_STUDENTID);
 
         usersList = new ArrayList<>();
         DownloadAvailableFood task = new DownloadAvailableFood();
-        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_meals_all");
+        if(opt==1){
+            task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_meals_all");
+        }
+
+
 
     }
 
@@ -68,7 +78,6 @@ public class Meal extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_meal, container, false);
-
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -83,6 +92,12 @@ public class Meal extends ListFragment {
         super.onDetach();
     }
 
+    @Override
+    public void onClick(View v) {
+       add_btn = (Button) v.findViewById(R.id.add_btn);
+        add_btn.setOnClickListener(this);
+        Toast.makeText(getActivity(),"Hello",Toast.LENGTH_SHORT).show();
+    }
 
 
     /**
