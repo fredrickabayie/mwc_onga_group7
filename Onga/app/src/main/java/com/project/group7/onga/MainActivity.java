@@ -4,6 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,8 +16,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -26,6 +31,8 @@ public class MainActivity extends AppCompatActivity
 
     TextView username, studentID;
     SessionManager sessionManager;
+    ImageView imageView;
+    byte[] rawImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        imageView = (ImageView) findViewById(R.id.profile_picture);
+
         username = (TextView) findViewById(R.id.app_draw_username);
         studentID = (TextView) findViewById(R.id.app_draw_studentid);
 
@@ -41,17 +50,32 @@ public class MainActivity extends AppCompatActivity
 
         if(sessionManager.checkLogin() == true) {
             finish();
+        } else {
+            System.out.println("In else");
+            HashMap<String, String> user = sessionManager.getUserDetails();
+
+            String name = user.get(SessionManager.KEY_NAME);
+
+            String dp = user.get(SessionManager.KEY_DP);
+
+//            rawImage = Base64.decode(dp, Base64.DEFAULT);
+//            Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
+//            imageView.setImageBitmap(bmp);
+
+            String stuid = user.get(SessionManager.KEY_STUDENTID);
+
+            username.setText(Html.fromHtml("<b>" + name + "</b>"));
+            studentID.setText(Html.fromHtml("<b>" + stuid + "</b>"));
         }
 
-        HashMap<String, String> user = sessionManager.getUserDetails();
 
-        String name = user.get(SessionManager.KEY_NAME);
+
+//        System.out.println(dp);
+
+//        imageView.setImageResource(R.mipmap.ic_profile);
 
         // email
-        String stuid = user.get(SessionManager.KEY_STUDENTID);
 
-        username.setText(Html.fromHtml("<b>" + name + "</b>"));
-        studentID.setText(Html.fromHtml("<b>" + stuid + "</b>"));
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
