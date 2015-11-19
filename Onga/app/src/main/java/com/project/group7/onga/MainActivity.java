@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity
 
         String dp = user.get(SessionManager.KEY_DP);
 
-        System.out.println(dp);
+//        System.out.println(dp);
 
-        imageView.setImageResource(R.mipmap.ic_profile);
+//        imageView.setImageResource(R.mipmap.ic_profile);
 
         // email
         String stuid = user.get(SessionManager.KEY_STUDENTID);
