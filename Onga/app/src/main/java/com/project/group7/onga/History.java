@@ -197,9 +197,14 @@ public class History extends ListFragment {
 
             ListAdapter adapter = new SimpleAdapter (
                     getActivity(), usersList,
+<<<<<<< HEAD
                     R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE, TAG_ORDERTIME },
                     new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date, R.id.list_order_time } );
 
+=======
+                    R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE },
+                    new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date } );
+>>>>>>> origin/codewreaker-branch
             setListAdapter(adapter);
 
         }
