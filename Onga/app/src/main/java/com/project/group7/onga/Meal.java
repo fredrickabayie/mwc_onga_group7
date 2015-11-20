@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,13 +33,15 @@ import java.util.List;
 /**
  * Created by israel.agyeman.prempeh@gmail.com on 18/11/15.
  */
-public class Meal extends ListFragment implements OnClickListener{
+public class Meal extends ListFragment implements OnClickListener, SwipeRefreshLayout.OnRefreshListener{
 
 
     JSONArray meals = null;
     String userid;
     SessionManager sessionManager;
     DownloadAvailableFood task;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     ArrayList<HashMap<String, String>> usersList;
     private static final String RESULT= "result";
@@ -66,8 +69,8 @@ public class Meal extends ListFragment implements OnClickListener{
         userid = user.get(SessionManager.KEY_STUDENTID);
 
         usersList = new ArrayList<>();
-        task = new DownloadAvailableFood();
-        operations("fetch_all_food",task);
+//        task = new DownloadAvailableFood();
+//        operations("fetch_all_food",task);
 
 
 
@@ -81,6 +84,20 @@ public class Meal extends ListFragment implements OnClickListener{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_meal, container, false);
         // Inflate the layout for this fragment
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_meals);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.login_btn, R.color.colorPrimaryDark, R.color.black);
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+
+                                        task = new DownloadAvailableFood();
+                                        operations("fetch_all_food", task);
+                                    }
+                                }
+        );
 
         return rootView;
     }
@@ -135,6 +152,15 @@ public class Meal extends ListFragment implements OnClickListener{
 
     public int generateRandom(){
         return (int)(Math.random()*9000)+1000;
+    }
+
+
+
+    @Override
+    public void onRefresh() {
+        task = new DownloadAvailableFood();
+        usersList.clear();
+        operations("fetch_all_food", task);
     }
 
 
@@ -218,7 +244,7 @@ public class Meal extends ListFragment implements OnClickListener{
 
         private String convertStatus(String mealId){
             String status = "Available";
-            if(mealId.equals("2")){
+            if(mealId.equals("1")){
                 status = "Not Available";
             }
             return status;
@@ -237,6 +263,7 @@ public class Meal extends ListFragment implements OnClickListener{
             super.onPostExecute(result);
             CustomListAdapter cadapter = new CustomListAdapter(getActivity(),usersList);
             setListAdapter(cadapter);
+            swipeRefreshLayout.setRefreshing(false);
 
         }
 

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:paddingBottom="20sp"
+    android:layout_marginBottom="20sp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_marginTop="30sp"
+    android:layout_height="88sp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="3sp"
+        android:layout_marginLeft="3sp"
+        android:id="@+id/thumbnail"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dip"
-        android:id="@+id/thumbnail">
-        
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="img"
-            android:src="@drawable/ic_restaurant_menu"/>
-
-    </LinearLayout>
+        android:layout_alignParentStart="true"
+        android:src="@drawable/onga_icon_small"/>
 
     <TextView
         android:id="@+id/list_meal_name"
@@ -26,13 +24,16 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:textColor="#000"
-        android:typeface="sans"
+        android:typeface="monospace"
+        android:layout_marginStart="10sp"
+        android:layout_marginLeft="10sp"
         android:textSize="16sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toEndOf="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="meal name"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/list_meal_price"
@@ -40,13 +41,32 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#000"
+        android:textColor="#e89e35"
+        android:layout_marginStart="10sp"
+        android:layout_marginLeft="10sp"
         android:typeface="monospace"
         android:textSize="14sp"
         android:layout_below="@id/list_meal_name"
         android:layout_toEndOf="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="meal price"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/list_order_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dip"
+        android:paddingTop="6dip"
+        android:textColor="#538000"
+        android:layout_marginStart="30sp"
+        android:layout_marginLeft="30sp"
+        android:typeface="monospace"
+        android:textSize="14sp"
+        android:layout_below="@id/list_meal_name"
+        android:layout_toEndOf="@+id/list_meal_price"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="order status"
         android:textStyle="bold" />
 
     <TextView
@@ -58,9 +78,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/list_meal_name"
         android:gravity="end"
-        android:typeface="serif"
+        android:typeface="sans"
         android:textColor="#000"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:layout_marginEnd="5sp"
         android:layout_marginRight="5dip"
         android:text="order date" />
@@ -73,10 +93,10 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/list_order_date"
         android:gravity="end"
-        android:typeface="serif"
+        android:typeface="sans"
         android:paddingTop="6dip"
         android:textColor="#000"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:layout_marginEnd="5sp"
         android:layout_marginRight="5dip"
         android:text="order time" />

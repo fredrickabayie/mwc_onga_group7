@@ -36,6 +36,8 @@ public class SessionManager {
 
     public static final String KEY_DP = "dp";
 
+    public static final String KEY_BALANCE = "balance";
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -46,7 +48,7 @@ public class SessionManager {
     /**
      * Create Login session
      * */
-    public void createLoginSession(String name, String studentID, String dp){
+    public void createLoginSession(String name, String studentID, String dp, String balance){
         // Storing Login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -57,6 +59,8 @@ public class SessionManager {
         editor.putString(KEY_STUDENTID, studentID);
 
         editor.putString(KEY_DP, dp);
+
+        editor.putString(KEY_BALANCE, balance);
 
         // commit changes
         editor.commit();
@@ -99,6 +103,8 @@ public class SessionManager {
         user.put(KEY_STUDENTID, pref.getString(KEY_STUDENTID, null));
 
         user.put(KEY_DP, pref.getString(KEY_DP, null));
+
+        user.put(KEY_BALANCE, pref.getString(KEY_BALANCE, null));
 
         // return user
         return user;
