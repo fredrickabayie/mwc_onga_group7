@@ -41,6 +41,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG_RESULT = "result";
     private static final String TAG_USERNAME = "username";
     private static final String TAG_USERDP = "dp";
+    private static final String TAG_BALANCE = "user_balance";
     private static final String TAG_ID = "id";
 
     private ProgressDialog pDialog;
@@ -154,12 +155,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     String user = jsonObj.getString(TAG_USERNAME);
                     String id = jsonObj.getString(TAG_ID);
                     String pic = jsonObj.getString(TAG_USERDP);
+                    String balance = jsonObj.getString(TAG_BALANCE);
 //                    System.out.println(pic);
 
                     if (pDialog.isShowing())
                         pDialog.dismiss();
 
-                    sessionManager.createLoginSession(user, id, pic);
+                    sessionManager.createLoginSession(user, id, pic, balance);
 
                     Intent home = new Intent(Login.this, MainActivity.class);
                     startActivity(home);
@@ -203,15 +205,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo mMobile = connManager .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-//        if (mWifi.isConnected()) {
-//            System.out.println("Wifi connected");
-//        } else {
-////            ImageView con_stat;
-////            con_stat = (ImageView) findViewById(R.id.connect_status);
-////            con_stat.setImageResource(R.drawable.ic_signal_wifi_off);
-////            login_btn.setEnabled(false);
-////            System.out.println("Wifi not available");
-//        }
+        if (mWifi.isConnected()) {
+            System.out.println("Wifi connected");
+        } else {
+            ImageView con_stat;
+            con_stat = (ImageView) findViewById(R.id.connect_status);
+            con_stat.setImageResource(R.drawable.ic_signal_wifi_off);
+//            login_btn.setEnabled(false);
+            System.out.println("Wifi not available");
+        }
     }
 
 

@@ -244,7 +244,7 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
 
         private String convertStatus(String mealId){
             String status = "Available";
-            if(mealId.equals("2")){
+            if(mealId.equals("1")){
                 status = "Not Available";
             }
             return status;

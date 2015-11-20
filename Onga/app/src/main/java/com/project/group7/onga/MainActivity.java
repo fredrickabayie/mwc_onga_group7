@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    TextView username, studentID;
+    TextView username, studentID, balance;
     SessionManager sessionManager;
     ImageView imageView;
     byte[] rawImage;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         username = (TextView) findViewById(R.id.app_draw_username);
         studentID = (TextView) findViewById(R.id.app_draw_studentid);
+        balance = (TextView) findViewById(R.id.app_draw_balance);
 
         sessionManager = new SessionManager(getApplicationContext());
 
@@ -63,14 +64,27 @@ public class MainActivity extends AppCompatActivity
 
             String dp = user.get(SessionManager.KEY_DP);
 
-            rawImage = Base64.decode(dp, Base64.DEFAULT);
-            Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
-            imageView.setImageBitmap(bmp);
+            String bal = user.get(SessionManager.KEY_BALANCE);
+
+                rawImage = Base64.decode(dp, Base64.DEFAULT);
+                Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
+                imageView.setImageBitmap(bmp);
+            
 
             String stuid = user.get(SessionManager.KEY_STUDENTID);
 
             username.setText(Html.fromHtml("<b>" + name + "</b>"));
             studentID.setText(Html.fromHtml("<b>" + stuid + "</b>"));
+            balance.setText("GH\u20B5 " + Html.fromHtml("<b>" + bal + "</b>"));
+
+            String title = getString(R.string.app_name);
+            Fragment frag = new Meal();
+            title = getString(R.string.title_menu);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, frag);
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle(title);
         }
 
 
@@ -92,14 +106,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        String title = getString(R.string.app_name);
-        Fragment frag = new Meal();
-        title = getString(R.string.title_menu);
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, frag);
-        fragmentTransaction.commit();
-        getSupportActionBar().setTitle(title);
+
     }
 
     @Override
