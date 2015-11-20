@@ -91,6 +91,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        String title = getString(R.string.app_name);
+        Fragment frag = new Meal();
+        title = getString(R.string.title_menu);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, frag);
+        fragmentTransaction.commit();
+        getSupportActionBar().setTitle(title);
     }
 
     @Override

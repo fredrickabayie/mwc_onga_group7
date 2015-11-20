@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 /**
  * Created by fredrickabayie on 17/11/15.
  */
-public class History extends ListFragment {
+public class History extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     JSONArray users = null;
 
@@ -43,6 +44,7 @@ public class History extends ListFragment {
     SessionManager sessionManager;
 
     ArrayList<HashMap<String, String>> historyList;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String TAG_RESULTID = "result";
     private static final String TAG_HISTORY = "history";
@@ -51,6 +53,8 @@ public class History extends ListFragment {
     private static final String TAG_ORDERDATE = "order_date";
     private static final String TAG_ORDERTIME = "order_time";
     private static final String TAG_ORDERSTATUS = "order_status";
+
+    String user_id = null;
 
 
     public History() {
@@ -66,11 +70,11 @@ public class History extends ListFragment {
 
         HashMap<String, String> user = sessionManager.getUserDetails();
 
-        String user_id = user.get(SessionManager.KEY_STUDENTID);
+        user_id = user.get(SessionManager.KEY_STUDENTID);
 
         historyList = new ArrayList<>();
-        DownloadWebPageTask task = new DownloadWebPageTask();
-        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_orders_history&user_id="+user_id);
+
+
 //        ListView lv = getListView();
 //        lv.setOnClickListener(this);
     }
@@ -82,6 +86,18 @@ public class History extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_history, container, false);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+
+                                        loadHistory();
+                                    }
+                                }
+        );
 
         // Inflate the layout for this fragment
         return rootView;
@@ -97,6 +113,19 @@ public class History extends ListFragment {
         super.onDetach();
     }
 
+
+
+    @Override
+    public void onRefresh() {
+        loadHistory();
+    }
+
+
+    private void loadHistory ( ) {
+        DownloadWebPageTask task = new DownloadWebPageTask();
+        historyList.clear();
+        task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_orders_history&user_id="+user_id);
+    }
 
 
     /**
@@ -199,8 +228,9 @@ public class History extends ListFragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
-            ListAdapter adapter = new SimpleAdapter (
+//            setListAdapter(null);
+            ListAdapter adapter = null;
+            adapter = new SimpleAdapter (
                     getActivity(), historyList,
                     R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE,
                     TAG_ORDERTIME, TAG_ORDERSTATUS },
@@ -208,6 +238,7 @@ public class History extends ListFragment {
                             R.id.list_order_time, R.id.list_order_status } );
 
             setListAdapter(adapter);
+            swipeRefreshLayout.setRefreshing(false);
 
         }
     }
