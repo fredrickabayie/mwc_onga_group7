@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
                 rawImage = Base64.decode(dp, Base64.DEFAULT);
                 Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
                 imageView.setImageBitmap(bmp);
-            
+
 
             String stuid = user.get(SessionManager.KEY_STUDENTID);
 

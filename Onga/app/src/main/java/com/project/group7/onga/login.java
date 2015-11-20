@@ -83,6 +83,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        networkSate();
+    }
+
+
     /**
      *
      */
@@ -187,10 +194,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
                     snackbar.show();
 
-
-
-
-
                 }
 
             } catch (JSONException jsonex) {
@@ -205,13 +208,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo mMobile = connManager .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-        if (mWifi.isConnected()) {
+        if (mWifi.isConnected() || mMobile.isConnected()) {
             System.out.println("Wifi connected");
+            ImageView con_stat;
+            con_stat = (ImageView) findViewById(R.id.connect_status);
+            con_stat.setImageResource(R.drawable.ic_signal_wifi_4_bar);
+            login_btn.setEnabled(true);
+            username.setEnabled(true);
+            password.setEnabled(true);
         } else {
             ImageView con_stat;
             con_stat = (ImageView) findViewById(R.id.connect_status);
             con_stat.setImageResource(R.drawable.ic_signal_wifi_off);
-//            login_btn.setEnabled(false);
+            login_btn.setEnabled(false);
+            username.setEnabled(false);
+            password.setEnabled(false);
             System.out.println("Wifi not available");
         }
     }
