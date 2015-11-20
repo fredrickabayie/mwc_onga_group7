@@ -39,7 +39,7 @@ public class History extends ListFragment implements SwipeRefreshLayout.OnRefres
     JSONArray users = null;
 
     ListView listView;
-    ArrayAdapter<String>adapter;
+    ArrayAdapter<String> adapter;
 
     SessionManager sessionManager;
 
@@ -87,8 +87,9 @@ public class History extends ListFragment implements SwipeRefreshLayout.OnRefres
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_history, container, false);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_history);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.login_btn, R.color.colorPrimaryDark, R.color.black);
         swipeRefreshLayout.post(new Runnable() {
                                     @Override
                                     public void run() {

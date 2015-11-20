@@ -6,4 +6,5 @@
 
     <color name="login_btn">#e89e35</color>
     <color name="login_btn_txt">#ffffff</color>
+    <color name="black">#000</color>
 </resources>
