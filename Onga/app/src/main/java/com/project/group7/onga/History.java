@@ -36,18 +36,21 @@ import java.util.HashMap;
 public class History extends ListFragment {
 
     JSONArray users = null;
+
     ListView listView;
     ArrayAdapter<String>adapter;
 
     SessionManager sessionManager;
 
-    ArrayList<HashMap<String, String>> usersList;
+    ArrayList<HashMap<String, String>> historyList;
+
     private static final String TAG_RESULTID = "result";
     private static final String TAG_HISTORY = "history";
     private static final String TAG_MEALNAME = "meal_name";
     private static final String TAG_MEALPRICE = "meal_price";
     private static final String TAG_ORDERDATE = "order_date";
     private static final String TAG_ORDERTIME = "order_time";
+    private static final String TAG_ORDERSTATUS = "order_status";
 
 
     public History() {
@@ -65,7 +68,7 @@ public class History extends ListFragment {
 
         String user_id = user.get(SessionManager.KEY_STUDENTID);
 
-        usersList = new ArrayList<>();
+        historyList = new ArrayList<>();
         DownloadWebPageTask task = new DownloadWebPageTask();
         task.execute("http://cs.ashesi.edu.gh/~csashesi/class2016/fredrick-abayie/mobileweb/onga_mwc/php/onga.php?cmd=onga_mwc_orders_history&user_id="+user_id);
 //        ListView lv = getListView();
@@ -154,17 +157,19 @@ public class History extends ListFragment {
                             String meal_price = "GH\u20B5 "+jObj.getString(TAG_MEALPRICE);
                             String order_date = jObj.getString(TAG_ORDERDATE);
                             String order_time = jObj.getString(TAG_ORDERTIME);
+                            String order_status = jObj.getString(TAG_ORDERSTATUS);
 
-                            HashMap<String, String> user = new HashMap<>();
+                            HashMap<String, String> history = new HashMap<>();
 
-                            user.put(TAG_MEALNAME, meal_name);
-                            user.put(TAG_MEALPRICE, meal_price);
-                            user.put(TAG_ORDERDATE, order_date);
-                            user.put(TAG_ORDERTIME, order_time);
+                            history.put(TAG_MEALNAME, meal_name);
+                            history.put(TAG_MEALPRICE, meal_price);
+                            history.put(TAG_ORDERDATE, order_date);
+                            history.put(TAG_ORDERTIME, order_time);
+                            history.put(TAG_ORDERSTATUS, order_status);
 
 
-                            usersList.add(user);
-                            System.out.println(usersList);
+                            historyList.add(history);
+                            System.out.println(historyList);
                         }
                     }
 
@@ -196,9 +201,11 @@ public class History extends ListFragment {
             super.onPostExecute(result);
 
             ListAdapter adapter = new SimpleAdapter (
-                    getActivity(), usersList,
-                    R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE, TAG_ORDERTIME },
-                    new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date, R.id.list_order_time } );
+                    getActivity(), historyList,
+                    R.layout.history_list, new String[] { TAG_MEALNAME, TAG_MEALPRICE, TAG_ORDERDATE,
+                    TAG_ORDERTIME, TAG_ORDERSTATUS },
+                    new int[] { R.id.list_meal_name, R.id.list_meal_price, R.id.list_order_date,
+                            R.id.list_order_time, R.id.list_order_status } );
 
             setListAdapter(adapter);
 
