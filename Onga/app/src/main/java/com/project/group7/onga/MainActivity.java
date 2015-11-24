@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity
     SessionManager sessionManager;
     ImageView imageView;
     byte[] rawImage;
-    Button add_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             System.out.println("In else");
             HashMap<String, String> user = sessionManager.getUserDetails();
-
             String name = user.get(SessionManager.KEY_NAME);
 
 //            String dp = user.get(SessionManager.KEY_DP);
@@ -153,6 +151,7 @@ public class MainActivity extends AppCompatActivity
         String title = getString(R.string.app_name);
         int id = item.getItemId();
         Fragment fragment = null;
+        balance.setText(sessionManager.getUserDetails().get(SessionManager.KEY_BALANCE));
 
         if (id == R.id.nav_menu) {
             fragment = new Meal();
