@@ -134,6 +134,15 @@ public class History extends ListFragment implements SwipeRefreshLayout.OnRefres
      */
     private class DownloadWebPageTask extends AsyncTask<String, Void, String> {
 
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            // Showing progress dialog
+//            pDialog = new ProgressDialog(Login.this);
+//            pDialog.setMessage("Please wait...");
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+//        }
 
         /**
          * Functiont to open an http connection
@@ -178,7 +187,7 @@ public class History extends ListFragment implements SwipeRefreshLayout.OnRefres
                             String meal_price = "GH\u20B5 "+jObj.getString(TAG_MEALPRICE);
                             String order_date = jObj.getString(TAG_ORDERDATE);
                             String order_time = jObj.getString(TAG_ORDERTIME);
-                            String order_status = convert_status(jObj.getString(TAG_ORDERSTATUS));
+                            String order_status = jObj.getString(TAG_ORDERSTATUS);
 
                             HashMap<String, String> history = new HashMap<>();
 
@@ -236,13 +245,6 @@ public class History extends ListFragment implements SwipeRefreshLayout.OnRefres
     }
 
 
-    private String convert_status(String status){
-        String state = "ready";
-        if(status.equals("not")){
-            state="not ready";
-        }
-        return state;
-    }
 
 //    /**
 //     * A function to read the web page
