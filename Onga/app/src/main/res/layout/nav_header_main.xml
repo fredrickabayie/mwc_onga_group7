@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@drawable/drawer_background"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark" android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:orientation="vertical"
     android:gravity="bottom">
 
-    <ImageView android:layout_width="60sp"
-        android:layout_height="60sp"
+    <ImageView android:layout_width="70sp"
+        android:layout_height="70sp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@drawable/onga_icon_small"
         android:id="@+id/profile_picture" />
 
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Android Studio"
+        android:typeface="monospace"
+        android:textColor="#fff"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/app_draw_username" />
 
@@ -25,5 +30,14 @@
         android:layout_height="wrap_content"
         android:text="android.studio@android.com"
         android:id="@+id/app_draw_studentid" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="price"
+        android:layout_marginTop="-35sp"
+        android:layout_gravity="right"
+        android:textColor="#fff"
+        android:id="@+id/app_draw_balance"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
