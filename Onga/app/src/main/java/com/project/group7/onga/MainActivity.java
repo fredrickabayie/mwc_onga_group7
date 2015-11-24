@@ -53,27 +53,27 @@ public class MainActivity extends AppCompatActivity
 
         sessionManager = new SessionManager(getApplicationContext());
 
-        if(sessionManager.checkLogin() == true) {
+        if(sessionManager.checkLogin()) {
             finish();
         } else {
             System.out.println("In else");
             HashMap<String, String> user = sessionManager.getUserDetails();
             String name = user.get(SessionManager.KEY_NAME);
 
-            String dp = user.get(SessionManager.KEY_DP);
+//            String dp = user.get(SessionManager.KEY_DP);
 
             String bal = user.get(SessionManager.KEY_BALANCE);
 
-                rawImage = Base64.decode(dp, Base64.DEFAULT);
-                Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
-                imageView.setImageBitmap(bmp);
+//                rawImage = Base64.decode(dp, Base64.DEFAULT);
+//                Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
+//                imageView.setImageBitmap(bmp);
 
 
             String stuid = user.get(SessionManager.KEY_STUDENTID);
 
             username.setText(Html.fromHtml("<b>" + name + "</b>"));
             studentID.setText(Html.fromHtml("<b>" + stuid + "</b>"));
-            balance.setText("GH\u20B5 " + Html.fromHtml("<b>" + bal + "</b>"));
+//            balance.setText("GH\u20B5 " + Html.fromHtml("<b>" + bal + "</b>"));
 
             String title = getString(R.string.app_name);
             Fragment frag = new Meal();
