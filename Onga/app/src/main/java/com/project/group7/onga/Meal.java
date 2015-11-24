@@ -50,6 +50,9 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
     private static final String PRICE = "meal_price";
     private static final String MEAL_ID = "meal_id";
     private static final String MEAL_STATUS = "meal_status";
+    private static final String AVAILABLE="Available";
+    private static final String UNAVAILABLE="Not Available";
+
 
 
     public Meal() {
@@ -69,8 +72,6 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
         userid = user.get(SessionManager.KEY_STUDENTID);
 
         usersList = new ArrayList<>();
-//        task = new DownloadAvailableFood();
-//        operations("fetch_all_food",task);
 
 
 
@@ -85,6 +86,8 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
         View rootView = inflater.inflate(R.layout.activity_meal, container, false);
         // Inflate the layout for this fragment
 
+       
+
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_meals);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.login_btn, R.color.colorPrimaryDark, R.color.black);
@@ -92,7 +95,6 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
                                     @Override
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(true);
-
                                         task = new DownloadAvailableFood();
                                         operations("fetch_all_food", task);
                                     }
@@ -311,14 +313,12 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
                 System.out.println(parent);
                 if(convertView==null){
                     vi = inflater.inflate(R.layout.list_row, null);
-
                     holder = new ViewHolder();
                     holder.itemName = (TextView) vi.findViewById(R.id.item_name);
                     holder.itemPrice = (TextView) vi.findViewById(R.id.item_price);
                     holder.itemStatus = (TextView) vi.findViewById(R.id.item_status);
                     holder.icon = (ImageView) vi.findViewById(R.id.icon);
                     holder.addBtn = (FloatingActionButton) vi.findViewById(R.id.add_btn);
-
                     vi.setTag(holder);
                 }else {
                     holder = (ViewHolder)vi.getTag();
@@ -334,14 +334,26 @@ public class Meal extends ListFragment implements OnClickListener, SwipeRefreshL
                     holder.itemPrice.setText(listItem.get(PRICE));
                     holder.itemStatus.setText(listItem.get(MEAL_STATUS));
 
+                    if(usersList.get(position).get(MEAL_STATUS)==UNAVAILABLE){
+                        holder.addBtn.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getActivity(),"Sorry Food is Not Available",Toast.LENGTH_SHORT).show();
 
-                    // Handling event on button click
-                    holder.addBtn.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            addfood(new DownloadAvailableFood(),usersList.get(position));
-                        }
-                    });
+                            }
+                        });
+
+                    }else if(usersList.get(position).get(MEAL_STATUS)==AVAILABLE){
+                        // Handling event on button click
+                        holder.addBtn.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addfood(new DownloadAvailableFood(),usersList.get(position));
+                            }
+                        });
+
+                    }
+
 
                 }
                 return vi;
